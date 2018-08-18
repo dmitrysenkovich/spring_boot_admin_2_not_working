@@ -1,0 +1,31 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+spring:
+  application:
+    name: spring-boot-admin-sample-servlet
+  security:
+    user:
+      name: "user"
+      password: "password"
+  boot:
+    admin:
+      context-path: /admin
+      url: ${spring.boot.admin.client.instance.management-url}${spring.boot.admin.context-path}
+      client:
+        url: http://localhost:8080
+        username: "user"       #These two are needed so that the client
+        password: "password"   #can register at the protected server api
+        instance:
+          management-url: http://localhost:8080/actuator
+          health-url: http://localhost:8080/actuator/health
+          service-url: ${spring.boot.admin.url}
+          metadata:
+            user.name: "user"         #These two are needed so that the server
+            user.password: "password" #can access the protected client endpoints
